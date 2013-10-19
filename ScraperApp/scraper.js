@@ -54,7 +54,7 @@ API.Groups.index(ACCESS_TOKEN, function(err,ret) {
 //
 
 if (process.argv.length == 4) {
-  MAX = 50;
+  MAX = 3;
   var group_id = process.argv[3];
   var page, opts;
 
@@ -63,8 +63,7 @@ if (process.argv.length == 4) {
   msg_no = 0
   opts = {}
 
-  while (page < MAX){
-    console.log("Running page ", page);
+  var check_message = function(opts){ 
     API.Messages.index(ACCESS_TOKEN, group_id, opts, function(err,ret){
       if (!err) {
         //console.log("Group info is", ret);        
@@ -74,22 +73,38 @@ if (process.argv.length == 4) {
           msg_no++
         }        
         
-        last_msg = ret['messages'][0]; // first element in array will be the latest message
+        last_msg = ret['messages'].pop() // first element in array will be the latest message
 
-        opts = {after_id:last_msg['id']};
+        before_id = last_msg['id']
+        opts = {before_id:before_id}; // everything before this id
+
+        console.log("Running page ", page);
+        page++;
+        
+        // base case
+        if (page < MAX){
+          check_message(opts)
+        }
       } else {
         console.log("ERROR!", err)
       }
     });
-    page++;
   }
 
-    // Get member names this way
-    //API.Groups.show(ACCESS_TOKEN, group_id,function(err,ret) {
-      //if (!err) {
-        //console.log("Group info is", ret);        
-      //} else {
-        //console.log("ERROR!", err)
-      //}
-    //});
+  //check_message(opts);
+
+
+  // Get member names this way
+  var get_members = function(){
+    API.Groups.show(ACCESS_TOKEN, group_id,function(err,ret) {
+      if (!err) {
+        console.log("Group info is", ret);        
+      } else {
+        console.log("ERROR!", err)
+      }
+    });
+  }
+
+  
+
 }
