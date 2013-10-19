@@ -63,6 +63,7 @@ if (process.argv.length == 4) {
   msg_no = 0
   opts = {}
 
+  // Filter the messages user the user_id of a member to search up messages
   var filter_messages = function(opts, targets){ 
     API.Messages.index(ACCESS_TOKEN, group_id, opts, function(err,ret){
       if (!err) {
@@ -70,7 +71,11 @@ if (process.argv.length == 4) {
         // Do something with the messages here...
         for (var i=0; i < ret['messages'].length; i++){
           //console.log(msg_no, ret['messages'][i]['text']);
-          console.log(ret['messages'][i])
+          for (var j=0; j < targets.length; j++){
+            if (ret['messages'][i]['user_id'] == targets[j]){
+              console.log(ret['messages'][i]['text']);
+            }
+          }
           msg_no++
         }        
         
@@ -92,7 +97,6 @@ if (process.argv.length == 4) {
     });
   }
 
-  //check_message(opts);
 
 
   // Get member names this way
@@ -118,13 +122,14 @@ if (process.argv.length == 4) {
             } else if (mode == "id"){
               if (ret['members'][i]['user_id'] == targets[j]){
                 console.log("Owner of ID: ", targets[j], "is", ret['members'][i]['nickname'])
-              }
 
-              mini_payload = {user_id:targets[j],name:ret['members'][i]['nickname']}
-              payload.push(mini_payload)
+                mini_payload = {user_id:targets[j],name:ret['members'][i]['nickname']}
+                payload.push(mini_payload)
+              }
             }
           }
         }
+        console.log(payload);
         return payload;
 
       } else {
@@ -135,5 +140,7 @@ if (process.argv.length == 4) {
 
   var sampleId = get_members(['curveball'], 'nickname')
   get_members([3662629], 'id') // who created the GroupMe?
+  //
+  //filter_messages(opts, sampleId);
 
 }
