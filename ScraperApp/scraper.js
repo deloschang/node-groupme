@@ -102,6 +102,7 @@ if (process.argv.length == 4) {
       if (!err) {
         //console.log("Group info is", ret);        
         console.log(ret['creator_user_id'])
+        console.log(Object.keys(ret))
         for (var i=0; i < ret['members'].length; i++){
           for (var j=0; j < targets.length; j++){
             //console.log(ret['members'][i]['nickname'].toLowerCase())
