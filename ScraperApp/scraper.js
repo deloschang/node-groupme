@@ -4,7 +4,7 @@
  * Include the Stateless API
  ***********************************************************************/
 
-var API = require('../index').Stateless;
+var API = require('../api/index').Stateless;
 
 /************************************************************************
  * Read the access token from the command line.
@@ -54,7 +54,7 @@ API.Groups.index(ACCESS_TOKEN, function(err,ret) {
 //
 
 if (process.argv.length == 4) {
-  MAX = 3;
+  MAX = 1000;
   var group_id = process.argv[3];
   var page, opts;
 
@@ -72,6 +72,7 @@ if (process.argv.length == 4) {
         for (var i=0; i < ret['messages'].length; i++){
           //console.log(msg_no, ret['messages'][i]['text']);
           for (var j=0; j < targets.length; j++){
+            //console.log(ret['messages'][i])
             if (ret['messages'][i]['user_id'] == targets[j]){
               console.log(ret['messages'][i]['text']);
             }
@@ -89,7 +90,7 @@ if (process.argv.length == 4) {
         
         // base case
         if (page < MAX){
-          check_message(opts)
+          filter_messages(opts, targets)
         }
       } else {
         console.log("ERROR!", err)
@@ -138,11 +139,13 @@ if (process.argv.length == 4) {
     });
   }
 
-  var sampleId = get_members(['curveball'], 'nickname')
-  console.log(sampleId)
+  //var sampleId = get_members(['curveball'], 'nickname')
+  get_members(['dman'], 'nickname')
+
+  //console.log(sampleId)
   //get_members([3662629], 'id') // who created the GroupMe?
 
   //
-  //filter_messages(opts, sampleId);
+  filter_messages(opts, [7235482]);
 
 }
