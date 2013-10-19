@@ -60,6 +60,4 @@ if (process.argv.length == 4) {
         console.log("ERROR!", err)
       }
     });
-
-
 }
