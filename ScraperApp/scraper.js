@@ -98,26 +98,33 @@ if (process.argv.length == 4) {
   // Takes in GroupMe member names and returns the user ids in a JSON
   // mode: either "id" or "nickname" matching
   var get_members = function(targets, mode){
+    payload = []
     API.Groups.show(ACCESS_TOKEN, group_id,function(err,ret) {
       if (!err) {
         //console.log("Group info is", ret);        
         console.log(ret['creator_user_id'])
-        console.log(Object.keys(ret))
+        //console.log(Object.keys(ret))
         for (var i=0; i < ret['members'].length; i++){
           for (var j=0; j < targets.length; j++){
             //console.log(ret['members'][i]['nickname'].toLowerCase())
             if (mode == "nickanme"){
               if (ret['members'][i]['nickname'].toLowerCase() == targets[j].toLowerCase()){
                 console.log(targets[j], "'s user ID is", ret['members'][i]['user_id'])
+
+                mini_payload = {name:targets[j],user_id:ret['members'][i]['user_id']}
+                payload.push(mini_payload)
               }
             } else if (mode == "id"){
               if (ret['members'][i]['user_id'] == targets[j]){
                 console.log("Owner of ID: ", targets[j], "is", ret['members'][i]['nickname'])
               }
-              
+
+              mini_payload = {user_id:targets[j],name:ret['members'][i]['nickname']}
+              payload.push(mini_payload)
             }
           }
         }
+        return payload;
 
       } else {
         console.log("ERROR!", err)
@@ -125,7 +132,7 @@ if (process.argv.length == 4) {
     });
   }
 
-  get_members(['curveball'], 'nickname')
+  var sampleId = get_members(['curveball'], 'nickname')
   get_members([3662629], 'id') // who created the GroupMe?
 
 }
