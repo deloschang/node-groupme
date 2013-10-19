@@ -63,13 +63,14 @@ if (process.argv.length == 4) {
   msg_no = 0
   opts = {}
 
-  var check_message = function(opts){ 
+  var filter_messages = function(opts, targets){ 
     API.Messages.index(ACCESS_TOKEN, group_id, opts, function(err,ret){
       if (!err) {
         //console.log("Group info is", ret);        
         // Do something with the messages here...
         for (var i=0; i < ret['messages'].length; i++){
-          console.log(msg_no, ret['messages'][i]['text']);
+          //console.log(msg_no, ret['messages'][i]['text']);
+          console.log(ret['messages'][i])
           msg_no++
         }        
         
