@@ -107,12 +107,12 @@ if (process.argv.length == 4) {
     API.Groups.show(ACCESS_TOKEN, group_id,function(err,ret) {
       if (!err) {
         //console.log("Group info is", ret);        
-        console.log(ret['creator_user_id'])
+        //console.log(ret['creator_user_id'])
         //console.log(Object.keys(ret))
         for (var i=0; i < ret['members'].length; i++){
           for (var j=0; j < targets.length; j++){
             //console.log(ret['members'][i]['nickname'].toLowerCase())
-            if (mode == "nickanme"){
+            if (mode == "nickname"){
               if (ret['members'][i]['nickname'].toLowerCase() == targets[j].toLowerCase()){
                 console.log(targets[j], "'s user ID is", ret['members'][i]['user_id'])
 
@@ -139,7 +139,9 @@ if (process.argv.length == 4) {
   }
 
   var sampleId = get_members(['curveball'], 'nickname')
-  get_members([3662629], 'id') // who created the GroupMe?
+  console.log(sampleId)
+  //get_members([3662629], 'id') // who created the GroupMe?
+
   //
   //filter_messages(opts, sampleId);
 
