@@ -73,7 +73,7 @@ if (process.argv.length == 4) {
           //console.log(msg_no, ret['messages'][i]['text']);
           for (var j=0; j < targets.length; j++){
             //console.log(ret['messages'][i])
-            if (ret['messages'][i]['user_id'] == targets[j]){
+            if (ret['messages'][i]['user_id'] == targets[j]['user_id']){
               console.log(ret['messages'][i]['text']);
             }
           }
@@ -104,7 +104,7 @@ if (process.argv.length == 4) {
   // Takes in GroupMe member names and returns the user ids in a JSON
   // mode: either "id" or "nickname" matching
   var get_members = function(targets, mode){
-    payload = []
+    var payload = [];
     API.Groups.show(ACCESS_TOKEN, group_id,function(err,ret) {
       if (!err) {
         //console.log("Group info is", ret);        
@@ -130,22 +130,16 @@ if (process.argv.length == 4) {
             }
           }
         }
-        console.log(payload);
-        return payload;
 
+        // no way to retrieve value from async callback
+        filter_messages(opts, payload);
       } else {
         console.log("ERROR!", err)
       }
     });
   }
 
-  //var sampleId = get_members(['curveball'], 'nickname')
-  get_members(['dman'], 'nickname')
-
-  //console.log(sampleId)
-  //get_members([3662629], 'id') // who created the GroupMe?
-
-  //
-  filter_messages(opts, [7235482]);
+  // Grabs the member IDs and then starts scraping
+  get_members(['curveball'], 'nickname')
 
 }
