@@ -1,9 +1,9 @@
 {
-    "name": "node-groupme-scraper",
-    "description": "GroupMe Search Engine, can filter messages by users",
-    "author": "Delos Chang <delosfchang@gmail.com>",
-    "version": "1.0.0",
-    "dependencies": {
-
-    }
+  "name": "node-groupme-scraper",
+  "description": "GroupMe Search Engine, can filter messages by users",
+  "author": "Delos Chang <delosfchang@gmail.com>",
+  "version": "1.0.0",
+  "dependencies": {
+    "underscore": "~1.5.2"
+  }
 }

@@ -50,8 +50,8 @@ API.Groups.index(ACCESS_TOKEN, function(err,ret) {
  ***********************************************************************/
 
 // 
-// 1701426
 //
+var _ = require('underscore');
 
 if (process.argv.length == 4) {
   MAX = 1000;
@@ -103,7 +103,7 @@ if (process.argv.length == 4) {
   // Get member names this way
   // Takes in GroupMe member names and returns the user ids in a JSON
   // mode: either "id" or "nickname" matching
-  var get_members = function(targets, mode){
+  var get_members = function(targets, mode, callback){
     var payload = [];
     API.Groups.show(ACCESS_TOKEN, group_id,function(err,ret) {
       if (!err) {
@@ -132,7 +132,7 @@ if (process.argv.length == 4) {
         }
 
         // no way to retrieve value from async callback
-        filter_messages(opts, payload);
+        callback(opts, payload);
       } else {
         console.log("ERROR!", err)
       }
@@ -140,6 +140,6 @@ if (process.argv.length == 4) {
   }
 
   // Grabs the member IDs and then starts scraping
-  get_members(['curveball'], 'nickname')
+  get_members(['7235482'], 'id', filter_messages)
 
 }
