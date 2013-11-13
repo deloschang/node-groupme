@@ -4,7 +4,7 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'GroupMe Search Engine' });
 };
 
 exports.helloworld = function(req, res){
