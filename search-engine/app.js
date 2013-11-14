@@ -9,6 +9,8 @@ var path = require('path');
 var app = express();
 var hbs = require('hbs');
 
+var scraper = require('../ScraperApp/scraper.js');
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -32,7 +34,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.post('/filterName', routes.filterName);
+app.post('/filterName', routes.filterName, scraper.get_members);
 
 
 http.createServer(app).listen(app.get('port'), function(){
